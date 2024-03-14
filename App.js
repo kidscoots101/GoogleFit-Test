@@ -18,11 +18,16 @@ export default function App() {
     .then((authResult) => {
       console.log("🚀 ~ .then ~ authResult:", authResult);
       if (authResult.success) {
-        // dispatch("AUTH_SUCCESS");
         console.log("🚀 ~ .then ~ AUTH_SUCCESS:");
+        // Call getStepCounts initially
         getStepCounts();
+
+        // Set interval to fetch steps every 5 seconds
+        const intervalId = setInterval(getStepCounts, 5000);
+
+        // Clean up interval on component unmount
+        return () => clearInterval(intervalId);
       } else {
-        // dispatch("AUTH_DENIED", authResult.message);
         console.log("🚀 ~ .then ~ AUTH_DENIED:");
       }
     })
